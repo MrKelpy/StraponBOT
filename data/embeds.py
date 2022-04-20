@@ -10,15 +10,16 @@ in every distribution, as a "LICENSE" file at top level.
 
 # Built-in Imports
 # Third Party Imports
-from discord.ext import commands
+import discord
 
 # Local Application Imports
-from data.globals import bot, dpyutils
-from data.embeds import help_info_embed
 
+with open("./data/usage_info", "r") as f:
+    usage_info: str = f.read()
 
-@bot.command(description="Shows this menu.", aliases=("help",))
-async def commands(ctx: commands.Context):
-    await ctx.message.delete()
-    await dpyutils.show_help_menu(ctx)
-    await ctx.send(embed=help_info_embed)
+help_info_embed: discord.Embed = discord.Embed(
+    title="Waifu claiming tips",
+    description=usage_info,
+    color=discord.Colour.red()
+)
+

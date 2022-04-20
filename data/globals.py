@@ -23,6 +23,5 @@ settings: Dict[str, str] = load_settings("./data/bot.config")
 token: str = settings["token"]
 prefix: str = settings["prefix"]
 intents = Intents.default()
-intents.members = True
 bot: cmds.Bot = cmds.Bot(command_prefix=prefix, intents=intents)
 dpyutils: DPyUtils = DPyUtils()
