@@ -3,3 +3,13 @@
 1. Add Mudae to your server, and familiarise yourself with its waifu system.
 2. Use $mmi and search for the waifu you want. This is to make sure you're not claiming someone else's waifu.
 3. Use $adapt to claim the waifu you brought up and add it into your waifu list.
+
+
+**Message Customization Variables**
+
+- {OPPONENT-WAIFU} - The opponent's waifu.
+- {OPPONENT} - The opponent's name.
+- {SELF-WAIFU} - Your waifu.
+- {SELF} - Your name.
+- {LEVEL} - Your level.
+- {HP} - Your HP.
