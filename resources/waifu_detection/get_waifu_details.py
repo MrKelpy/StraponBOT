@@ -10,6 +10,7 @@ in every distribution, as a "LICENSE" file at top level.
 
 # Built-in Imports
 from typing import List
+import re
 
 # Third Party Imports
 import discord
@@ -34,6 +35,7 @@ async def get_waifu_details(ctx: commands.Context) -> dict:
         "name": waifu_message.embeds[0].author.name,
         "source": waifu_message.embeds[0].description.split("\n")[0],
         "image": waifu_message.embeds[0].image.url,
+        "kakera_value": re.match(r"/^[1-9]\d*$/", waifu_message.embeds[0].description.split("\n")[1]),
     }
 
     return waifu_details

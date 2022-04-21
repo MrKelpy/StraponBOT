@@ -42,6 +42,7 @@ async def adapt(ctx: commands.Context):
     waifu_details["level"] = 1
     waifu_details["exp"] = 0
     waifu_details["next_level"] = 100
+    waifu_details["skill_points"] = random.randint(0, int(waifu_details["kakera_value"]) // 10)
     waifu_details["physical_dmg"] = 1
     waifu_details["magical_dmg"] = 1
     waifu_details["physical_def"] = 1
@@ -56,6 +57,7 @@ async def adapt(ctx: commands.Context):
                                               "Cryo :cryo:"])
     waifu_details["artefacts"] = 0
     waifu_details["messages"] = default_messages
+    del waifu_details["kakera_value"]
 
     waifus_collection: Collection = await ensure_collection(str(ctx.guild.id))
     waifus_collection.insert_one(waifu_details)
