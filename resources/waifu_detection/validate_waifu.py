@@ -17,11 +17,13 @@ from discord.ext import commands
 
 # Local Application Imports
 from data.globals import MUDAE_ID
+from resources.LaminariaDB.LaminariaDB import Collection
+from resources.ensure_collection import ensure_collection
 
 
 async def validate_waifu(ctx: commands.Context) -> bool:
     """
-    Checks if the last message came from Mudae, and contains valid waifu.
+    Checks if the last message came from Mudae, and contains valid waifu that isn't already in the database.
     :return bool: True if the last message came from Mudae, and contains a valid waifu.
     """
 
@@ -43,8 +45,13 @@ async def validate_waifu(ctx: commands.Context) -> bool:
     # Make sure that the last message is a waifu message.
     last_message_validation: bool = last_message.embeds and last_message.author.id == MUDAE_ID
 
+    # Makes sure that the waifu is not already in the database. (True if not)
+    waifus_collection: Collection = await ensure_collection(str(ctx.guild.id))
+    duplicate_validation: bool = not waifus_collection.find(query={"name": last_message.embeds[0].author.name},
+                                                            limit=1)
+
     # If either validation fails, return False.
-    if not trigger_message_validation or not last_message_validation:
+    if not trigger_message_validation or not last_message_validation or not duplicate_validation:
         return False
 
     return True

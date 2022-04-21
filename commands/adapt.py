@@ -42,7 +42,7 @@ async def adapt(ctx: commands.Context):
     waifu_details["level"] = 1
     waifu_details["exp"] = 0
     waifu_details["next_level"] = 100
-    waifu_details["skill_points"] = random.randint(0, int(waifu_details["kakera_value"]) // 10)
+    waifu_details["skill_points"] = random.randint(0, int(waifu_details["kakera_value"]) // 20)
     waifu_details["physical_dmg"] = 1
     waifu_details["magical_dmg"] = 1
     waifu_details["physical_def"] = 1
@@ -61,4 +61,5 @@ async def adapt(ctx: commands.Context):
 
     waifus_collection: Collection = await ensure_collection(str(ctx.guild.id))
     waifus_collection.insert_one(waifu_details)
+    await ctx.send(f"```json\n{json.dumps(waifu_details, indent=4)}```")
     await ctx.message.add_reaction(SUCCESS_EMOJI)

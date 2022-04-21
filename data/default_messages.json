@@ -1,3 +1,5 @@
 {
-  "death": []
+  "death": ["{SELF-WAIFU} has been defeated by {OPPONENT-WAIFU}."],
+  "attack": ["{SELF-WAIFU} "],
+  "level-up": ["{SELF-WAIFU} Leveled up to level {LEVEL}!"],
 }

@@ -33,9 +33,9 @@ async def get_waifu_details(ctx: commands.Context) -> dict:
 
     waifu_details: dict = {
         "name": waifu_message.embeds[0].author.name,
-        "source": waifu_message.embeds[0].description.split("\n")[0],
+        "source": waifu_message.embeds[0].description.split("\n")[0].split("<")[0],
         "image": waifu_message.embeds[0].image.url,
-        "kakera_value": re.match(r"/^[1-9]\d*$/", waifu_message.embeds[0].description.split("\n")[1]),
+        "kakera_value": re.search(r"\d+", waifu_message.embeds[0].description.split("\n")[1]).group(0),
     }
 
     return waifu_details
