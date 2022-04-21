@@ -1,0 +1,24 @@
+{
+    "name": "Kim Possible",
+    "source": "Kim Possible <:female:452463537508450304>",
+    "image": "https://imgur.com/nci0YBx.png",
+    "owner": 450925345634517002,
+    "level": 1,
+    "exp": 0,
+    "physical_dmg": 0,
+    "magical_dmg": 0,
+    "physical_def": 0,
+    "magical_def": 0,
+    "speed": 0,
+    "luck": 0,
+    "max_hp": 0,
+    "hp": 0,
+    "class": null,
+    "element": ":geo: Geo",
+    "artefacts": 0,
+    "messages": {
+        "death": []
+    },
+    "_id": "08d8aba6-cd00-4bfa-94c2-7255b838d309",
+    "_collection": "waifus"
+}

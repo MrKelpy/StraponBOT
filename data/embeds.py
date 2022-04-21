@@ -18,7 +18,7 @@ with open("./data/usage_info", "r") as f:
     usage_info: str = f.read()
 
 help_info_embed: discord.Embed = discord.Embed(
-    title="Waifu claiming tips",
+    title="How to claim a waifu",
     description=usage_info,
     color=discord.Colour.red()
 )
