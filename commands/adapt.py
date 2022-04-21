@@ -41,14 +41,15 @@ async def adapt(ctx: commands.Context):
     waifu_details["owner"] = ctx.author.id
     waifu_details["level"] = 1
     waifu_details["exp"] = 0
-    waifu_details["physical_dmg"] = 0
-    waifu_details["magical_dmg"] = 0
-    waifu_details["physical_def"] = 0
-    waifu_details["magical_def"] = 0
-    waifu_details["speed"] = 0
+    waifu_details["next_level"] = 100
+    waifu_details["physical_dmg"] = 1
+    waifu_details["magical_dmg"] = 1
+    waifu_details["physical_def"] = 1
+    waifu_details["magical_def"] = 1
+    waifu_details["speed"] = 1
     waifu_details["luck"] = 0
-    waifu_details["max_hp"] = 0
-    waifu_details["hp"] = 0
+    waifu_details["max_hp"] = 100
+    waifu_details["hp"] = 100
     waifu_details["class"] = None
     waifu_details["element"] = random.choice(["Pyro :pyro:", "Hydro :hydro:", "Geo :geo:",
                                               "Anemo :anemo:", "Electro :electro:", "Dendro :dendro"
@@ -56,6 +57,6 @@ async def adapt(ctx: commands.Context):
     waifu_details["artefacts"] = 0
     waifu_details["messages"] = default_messages
 
-    waifus_collection: Collection = await ensure_collection("waifus")
-    await waifus_collection.insert_one(waifu_details)
+    waifus_collection: Collection = await ensure_collection(str(ctx.guild.id))
+    waifus_collection.insert_one(waifu_details)
     await ctx.message.add_reaction(SUCCESS_EMOJI)
