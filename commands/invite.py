@@ -10,19 +10,14 @@ in every distribution, as a "LICENSE" file at top level.
 
 # Built-in Imports
 # Third Party Imports
-import discord
-
 # Local Application Imports
-
-with open("./data/usage_info", "r") as f:
-    usage_info: str = f.read()
-
-help_info_embed: discord.Embed = discord.Embed(
-    title="",
-    description=usage_info,
-    color=discord.Colour.red()
-)
+from data.globals import bot
+from data.globals import settings
 
 
-waifu_listing_embed_build: discord.Embed = discord.Embed(
-)
+@bot.command(description="Get an invite link for the bot.")
+async def invite(ctx):
+    """
+    Get an invite link for the bot.
+    """
+    await ctx.send(f"https://discord.com/api/oauth2/authorize?client_id=966370729597730966&permissions=8&scope=bot")

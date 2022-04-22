@@ -29,4 +29,6 @@ dpyutils: DPyUtils = DPyUtils()
 MUDAE_ID: int = 432610292342587392
 FAILED_EMOJI: str = "❌"
 SUCCESS_EMOJI: str = "✅"
+NEXT_EMOJI: str = "➡"
+PREV_EMOJI: str = "⬅"
 waifus_db: LaminariaDB = LaminariaDB("./databases")

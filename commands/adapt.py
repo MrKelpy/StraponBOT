@@ -53,7 +53,7 @@ async def adapt(ctx: commands.Context):
     waifu_details["hp"] = 100
     waifu_details["class"] = None
     waifu_details["element"] = random.choice(["Pyro :pyro:", "Hydro :hydro:", "Geo :geo:",
-                                              "Anemo :anemo:", "Electro :electro:", "Dendro :dendro"
+                                              "Anemo :anemo:", "Electro :electro:", "Dendro :dendro",
                                               "Cryo :cryo:"])
     waifu_details["artefacts"] = 0
     waifu_details["messages"] = default_messages
@@ -61,5 +61,5 @@ async def adapt(ctx: commands.Context):
 
     waifus_collection: Collection = await ensure_collection(str(ctx.guild.id))
     waifus_collection.insert_one(waifu_details)
-    await ctx.send(f"```json\n{json.dumps(waifu_details, indent=4)}```")
+
     await ctx.message.add_reaction(SUCCESS_EMOJI)
