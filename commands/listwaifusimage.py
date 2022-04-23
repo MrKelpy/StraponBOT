@@ -16,7 +16,7 @@ import discord
 from discord.ext import commands
 
 # Local Application Imports
-from data.globals import bot
+from data.globals import bot, FAILED_EMOJI
 from resources.ensure_collection import ensure_collection
 from resources.LaminariaDB.Collection import Collection
 from resources.LaminariaDB.Document import Document
@@ -25,7 +25,7 @@ from tasks.waifu_listing.handle_imaged_listing import handle_waifu_listing
 
 
 @bot.command(description="Lists all the adapted waifus and their perks to an user.", aliases=("lwi",))
-async def listwaifusimage(ctx: commands.Context, starting_index: int = 1, member: discord.Member = None, ) -> None:
+async def listwaifusimage(ctx: commands.Context, starting_index: int = 1) -> None:
     """
     Accesses the database and runs through all the waifus, and returns a list of the waifus owned
     by the user. Then, sorts them alphabetically, and sends the list into a task that will handle
@@ -33,21 +33,24 @@ async def listwaifusimage(ctx: commands.Context, starting_index: int = 1, member
     If the list comes out empty, let the user know they have no waifus.
 
     :param command.Context ctx: The command context
-    :param discord.Member member: The user to list waifus for. Defaults to the author of the command.
     :param int starting_index: The index of the waifu to start at.
     :return None:
     """
-
-    if member is None:
-        member: discord.Member = ctx.author
 
     # Send a loading message to the channel, in order to create the message that will be checked by the task.
     dpy_utils: DPyUtils = DPyUtils()
     listing_message: discord.Message = await dpy_utils.send_loading(ctx.channel)
 
     waifu_collection: Collection = await ensure_collection(str(ctx.guild.id))
-    waifu_query: List[Document] = waifu_collection.find(query={"owner": member.id})
+    waifu_query: List[Document] = waifu_collection.find(query={"owner": ctx.author.id})
 
+    # Prevents an user from typing in a starting index that is too high or too low.
+    if starting_index < 1 or starting_index > len(waifu_query):
+        await listing_message.delete()
+        await ctx.message.add_reaction(FAILED_EMOJI)
+        return
+
+    # Lets the user know that they don't have any adapted waifus.
     if not waifu_query:
         await listing_message.delete()
         await ctx.send(f"No results.")

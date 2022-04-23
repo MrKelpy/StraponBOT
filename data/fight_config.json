@@ -3,37 +3,66 @@
         "Pyro": {
             "name": "Pyro",
             "emoji": "<:pyro:967008581905952798>",
-            "description": "Pyro is the fire element. It's a pretty good element to have, and it's the strongest fire-based element.",
+            "description": "Pyro is the fire element. It's the strongest purely fire-based element.",
             "strong_against": [
-                "Cryo",
-                "Electro",
-                "Dendro"
+                "Electro"
             ],
             "weak_against": [
+                "Electro",
                 "Hydro",
                 "Anemo"
             ]
         },
-      "Hydro": {
-        "name": "Hydro",
-        "emoji": "<:hydro:967008540852101163>",
-        "description": "Hydro is the water element. It's a pretty good element to have, and it's the strongest water-based element.",
-        "strong_against": [
-          "Pyro",
-          "Electro",
-          "Geo"
-        ],
-        "weak_against": [
-          "Anemo",
-          "Dendro"
-        ]
-      },
-      "Anemo": {
-        "name": "Anemo",
-        "emoji": "<:anemo:967008550109879296>",
-        "description": "Anemo is the air element. It's a pretty good element to have, and it's the strongest air-based element.",
-        "strong_against": [],
-        "weak_against": []
-      }
+        "Hydro": {
+            "name": "Hydro",
+            "emoji": "<:hydro:967008540852101163>",
+            "description": "Hydro is the water element. It's the strongest purely water-based element.",
+            "strong_against": [
+                "Pyro",
+                "Geo"
+            ],
+            "weak_against": [
+                "Electro"
+            ]
+        },
+        "Anemo": {
+            "name": "Anemo",
+            "emoji": "<:anemo:967008595336122378>",
+            "description": "Anemo is the air element. It's the strongest purely air-based element.",
+            "strong_against": [
+                "Pyro",
+                "Geo"
+            ],
+            "weak_against": [
+                "Electro"
+            ]
+        },
+        "Electro": {
+            "name": "Electro",
+            "emoji": "<:electro:967008552671674369>",
+            "description": "Electro is the electric element. It's the strongest purely electric-based element.",
+            "strong_against": [
+                "Pyro",
+                "Hydro",
+                "Anemo"
+            ],
+            "weak_against": [
+                "Pyro",
+                "Geo"
+            ]
+        },
+        "Geo": {
+            "name": "Geo",
+            "emoji": "<:geo:967008429073891368>",
+            "description": "Geo is the earth element. It's the strongest purely earth-based element.",
+            "strong_against": [
+                "Pyro",
+                "Electro"
+            ],
+            "weak_against": [
+                "Anemo",
+                "Hydro"
+            ]
+        }
     }
 }

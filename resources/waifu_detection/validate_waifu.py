@@ -49,7 +49,6 @@ async def validate_waifu(ctx: commands.Context) -> bool:
     waifus_collection: Collection = await ensure_collection(str(ctx.guild.id))
     duplicate_validation: bool = not waifus_collection.find(query={"name": last_message.embeds[0].author.name},
                                                             limit=1)
-
     # If either validation fails, return False.
     if not trigger_message_validation or not last_message_validation or not duplicate_validation:
         return False

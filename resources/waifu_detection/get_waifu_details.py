@@ -18,6 +18,23 @@ from discord.ext import commands
 
 # Local Application Imports
 
+async def get_source(description: str) -> str:
+    """
+    Parses out the anime/game source line from the waifu embed.
+    :param str description: The embed description
+    :return str: The anime/game source line
+    """
+
+    source: str = ""
+    for line in description.split("\n"):
+
+        # If the line contains the "Animanga Roulette" excerpt which comes after the source, we're done.
+        if "Animanga roulette" in line:
+            break
+        source += f"{line} "
+
+    return source.strip()
+
 
 async def get_waifu_details(ctx: commands.Context) -> Dict[str, object]:
     """
@@ -30,14 +47,16 @@ async def get_waifu_details(ctx: commands.Context) -> Dict[str, object]:
     # we are guaranteed the position of the waifu message, since it's already been validated.
     waifu_message: List[discord.Message] = await ctx.channel.history(limit=2).flatten()
     waifu_message: discord.Message = waifu_message[-1]
+    kakera_value_line: str = [x for x in waifu_message.embeds[0].description.split("\n") if "Animanga roulette" in x][0]
+    source: str = await get_source(waifu_message.embeds[0].description)
 
     waifu_details: dict = {
         "name": waifu_message.embeds[0].author.name,
-        "source": waifu_message.embeds[0].description.split("\n")[0].split("<")[0],
+        "source": source.split("<")[0].strip(),
         "image": waifu_message.embeds[0].image.url,
-        "kakera_value": re.search(r"\d+", waifu_message.embeds[0].description.split("\n")[1]).group(0),
         "embed_colour": waifu_message.embeds[0].colour.value,
-        "gender": "female" if "female" in waifu_message.embeds[0].description.split("\n")[0] else "male"
+        "kakera_value": int(re.search(r"\d+", kakera_value_line).group(0)),
+        "gender": "female" if "female" in source else "male"
     }
 
     return waifu_details

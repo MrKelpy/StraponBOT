@@ -10,6 +10,7 @@ in every distribution, as a "LICENSE" file at top level.
 
 # Built-in Imports
 from typing import Dict
+import json
 
 # Third Party Imports
 from discord.ext import commands as cmds
@@ -32,3 +33,12 @@ SUCCESS_EMOJI: str = "✅"
 NEXT_EMOJI: str = "➡"
 PREV_EMOJI: str = "⬅"
 waifus_db: LaminariaDB = LaminariaDB("./databases")
+
+with open("./data/fight_config.json", "r") as fight_config_file:
+    fight_config: dict = json.load(fight_config_file)
+
+with open("./data/default_messages.json", "r") as default_messages_file:
+    default_messages: dict = json.load(default_messages_file)
+
+with open("./data/usage_info", "r") as usage_info_file:
+    usage_info: str = usage_info_file.read()

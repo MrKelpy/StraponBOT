@@ -13,9 +13,7 @@ in every distribution, as a "LICENSE" file at top level.
 import discord
 
 # Local Application Imports
-
-with open("./data/usage_info", "r") as f:
-    usage_info: str = f.read()
+from data.globals import usage_info
 
 help_info_embed: discord.Embed = discord.Embed(
     title="",

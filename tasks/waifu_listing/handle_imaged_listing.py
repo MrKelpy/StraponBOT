@@ -20,7 +20,7 @@ import asyncio
 # Local Application Imports
 from resources.LaminariaDB.Document import Document
 from data.embeds import waifu_listing_embed_build
-from data.globals import NEXT_EMOJI, PREV_EMOJI
+from data.globals import NEXT_EMOJI, PREV_EMOJI, fight_config
 
 
 async def update_header(waifu_list: List[Document], increment: bool, current: int) -> int:
@@ -52,13 +52,16 @@ async def load_listing_index(ctx: commands.Context, waifu_list: List[Document],
     :param int navigation_header: A header to determine the current position in the apparent list we are in.
     :return discord.Embed: The embed for the waifu at the specified index
     """
-    
+
+    element_name: str = waifu_list[index].content["element"]
+    element_icon: str = fight_config["elements"][element_name]["emoji"]
     waifu_listing_embed: discord.Embed = waifu_listing_embed_build.copy()
     waifu_listing_embed.title = waifu_list[index].content["name"]
     waifu_listing_embed.description = f"{waifu_list[index].content['source']} :{waifu_list[index].content['gender']}_sign:\n"
     waifu_listing_embed.description += f"LEVEL: {waifu_list[index].content['level']} " \
                                              f"({waifu_list[index].content['exp']}/{waifu_list[index].content['next_level']})\n"
-    waifu_listing_embed.description += f"CLASS: {waifu_list[index].content['class']} | {waifu_list[index].content['element']}\n"
+    waifu_listing_embed.description += f"CLASS: {waifu_list[index].content['class']} | " \
+                                       f"{element_name} {element_icon}\n"
     waifu_listing_embed.description += f"SKILL POINTS: {waifu_list[index].content['skill_points']}\n"
     waifu_listing_embed.description += f"HP: {waifu_list[index].content['max_hp']}"
     waifu_listing_embed.add_field(name="Physical Damage", value=waifu_list[index].content["physical_dmg"], inline=True)
@@ -103,14 +106,22 @@ async def handle_waifu_listing(ctx: commands.Context, waifu_list: List[Document]
             if reaction.emoji == NEXT_EMOJI and reaction.count > 1:  # Checks if the reaction is the "next" emoji
                 waifu_list.append(waifu_list.pop(0))  # Moves the first waifu to the end of the list
                 navigation_header = await update_header(waifu_list, True, navigation_header)  # Updates the navigation header
-                await listing_message.remove_reaction(NEXT_EMOJI, ctx.author)
+
+                async for user in reaction.users():  # Removes the reaction from every user but the bot
+                    if user.id == 966370729597730966: continue
+                    await listing_message.remove_reaction(NEXT_EMOJI, user)
+
                 await listing_message.edit(embed=await load_listing_index(ctx, waifu_list, 0, navigation_header))
                 timeout_stamp = datetime.now().timestamp() + 30.0  # Resets the timeout
 
             elif reaction.emoji == PREV_EMOJI and reaction.count > 1:  # Checks if the reaction is the "previous" emoji
                 waifu_list.insert(0, waifu_list.pop(-1))  # Moves the last waifu to the beginning of the list
                 navigation_header = await update_header(waifu_list, False, navigation_header)  # Updates the navigation header
-                await listing_message.remove_reaction(PREV_EMOJI, ctx.author)
+
+                async for user in reaction.users():  # Removes the reaction from every user but the bot
+                    if user.id == 966370729597730966: continue
+                    await listing_message.remove_reaction(PREV_EMOJI, user)
+
                 await listing_message.edit(embed=await load_listing_index(ctx, waifu_list, 0, navigation_header))
                 timeout_stamp = datetime.now().timestamp() + 30.0  # Resets the timeout
 

@@ -9,14 +9,13 @@ in every distribution, as a "LICENSE" file at top level.
 """
 
 # Built-in Imports
-import json
 import random
 
 # Third Party Imports
 from discord.ext import commands
 
 # Local Application Imports
-from data.globals import bot, FAILED_EMOJI, SUCCESS_EMOJI
+from data.globals import bot, FAILED_EMOJI, SUCCESS_EMOJI, default_messages, fight_config
 from resources.waifu_detection.validate_waifu import validate_waifu
 from resources.waifu_detection.get_waifu_details import get_waifu_details
 from resources.ensure_collection import ensure_collection
@@ -34,9 +33,6 @@ async def adapt(ctx: commands.Context):
         await ctx.message.add_reaction(FAILED_EMOJI)
         return
 
-    with open("./data/default_messages.json", "r") as f:
-        default_messages = json.load(f)
-
     waifu_details: dict = await get_waifu_details(ctx)
     waifu_details["owner"] = ctx.author.id
     waifu_details["level"] = 1
@@ -52,9 +48,7 @@ async def adapt(ctx: commands.Context):
     waifu_details["max_hp"] = 100
     waifu_details["hp"] = 100
     waifu_details["class"] = None
-    waifu_details["element"] = random.choice(["Pyro :pyro:", "Hydro :hydro:", "Geo :geo:",
-                                              "Anemo :anemo:", "Electro :electro:", "Dendro :dendro",
-                                              "Cryo :cryo:"])
+    waifu_details["element"] = random.choice(list(fight_config["elements"]))
     waifu_details["artefacts"] = 0
     waifu_details["messages"] = default_messages
     del waifu_details["kakera_value"]
