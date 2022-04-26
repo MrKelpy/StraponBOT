@@ -1,0 +1,25 @@
+WAIFU DICT LOADERS
+-----------------
+
+The waifu dict loaders are json serializable dictionaries used to pass and format the information
+between the waifu in the database and the commands they are requested at.
+
+A waifu dict loader has a lot of key values, that will be specified below:
+
+# Base dict loader
+{
+	"title": str,  // The title of the embed
+	"image_url": str,  // The image url of the waifu
+	"colour": int,  // HEX Value for the colour of the embed
+	"description": list(), // Each element is a line in the description
+	"fields": dict(),  // Each key is a field name, and the value is the string in the field
+	"navigation": int,  // Navigation header
+	"waifu_count": int  // How many waifus the user has
+}
+
+Most of the values in the dict loader are gathered via the get_waifu_details function, and formatted
+accordingly to whatever the command needs.
+Depending on the values passed into the dict loader, the embed will have different appearences.
+
+Every command will need to have a dict loader, and the dict loader will be parsed using the waifu_utils.load_waifu_listing
+function. That will shape up the embed from the dict loader.
