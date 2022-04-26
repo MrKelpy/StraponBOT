@@ -18,6 +18,7 @@ from discord.ext import commands
 
 # Local Application Imports
 
+
 async def get_source(description: str) -> str:
     """
     Parses out the anime/game source line from the waifu embed.

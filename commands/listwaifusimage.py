@@ -21,7 +21,8 @@ from resources.ensure_collection import ensure_collection
 from resources.LaminariaDB.Collection import Collection
 from resources.LaminariaDB.Document import Document
 from resources.LaminariaCore.utils.discordpy import DPyUtils
-from tasks.waifu_listing.handle_imaged_listing import handle_waifu_listing
+from tasks.handle_waifu_listing import handle_waifu_listing
+from resources.waifu_dict_loaders.lwi_dict_loader import make_dict_loader as lwi_dict_loader
 
 
 @bot.command(description="Lists all the adapted waifus and their perks to an user.", aliases=("lwi",))
@@ -58,4 +59,4 @@ async def listwaifusimage(ctx: commands.Context, starting_index: int = 1) -> Non
 
     waifu_list: List[Document] = sorted(waifu_query, key=lambda x: x.content["name"])
     cache_msg: discord.Message = discord.utils.get(bot.cached_messages, id=listing_message.id)
-    bot.loop.create_task(handle_waifu_listing(ctx, waifu_list, cache_msg, starting_index-1))
+    bot.loop.create_task(handle_waifu_listing(ctx, waifu_list, cache_msg, starting_index-1, lwi_dict_loader))

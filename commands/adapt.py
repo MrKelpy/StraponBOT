@@ -16,8 +16,8 @@ from discord.ext import commands
 
 # Local Application Imports
 from data.globals import bot, FAILED_EMOJI, SUCCESS_EMOJI, default_messages, fight_config
-from resources.waifu_detection.validate_waifu import validate_waifu
-from resources.waifu_detection.get_waifu_details import get_waifu_details
+from resources.waifu_utils.validate_waifu import validate_waifu
+from resources.waifu_utils.get_waifu_details import get_waifu_details
 from resources.ensure_collection import ensure_collection
 from resources.LaminariaDB.Collection import Collection
 
