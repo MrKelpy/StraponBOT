@@ -53,7 +53,7 @@ async def make_dict_loader(waifu_document: Document, navigation_header: int, wai
 
     # Adds the extra information values into the dict loader
     dict_loader["image"] = waifu_document.content["image"]
-    dict_loader["waifu_count"] = waifu_count
+    dict_loader["page_count"] = waifu_count
     dict_loader["navigation"] = navigation_header
 
     return dict_loader

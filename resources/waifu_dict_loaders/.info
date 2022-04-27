@@ -6,7 +6,7 @@ between the waifu in the database and the commands they are requested at.
 
 A waifu dict loader has a lot of key values, that will be specified below:
 
-# Base dict loader
+# Base dict loader body
 {
 	"title": str,  // The title of the embed
 	"image_url": str,  // The image url of the waifu
@@ -14,7 +14,7 @@ A waifu dict loader has a lot of key values, that will be specified below:
 	"description": list(), // Each element is a line in the description
 	"fields": dict(),  // Each key is a field name, and the value is the string in the field
 	"navigation": int,  // Navigation header
-	"waifu_count": int  // How many waifus the user has
+	"page_count": int  // How many waifus the user has
 }
 
 Most of the values in the dict loader are gathered via the get_waifu_details function, and formatted
@@ -23,3 +23,4 @@ Depending on the values passed into the dict loader, the embed will have differe
 
 Every command will need to have a dict loader, and the dict loader will be parsed using the waifu_utils.load_waifu_listing
 function. That will shape up the embed from the dict loader.
+Think of the dict loader functions as drivers, and the dict loader dictionaries as the end-user communication.
