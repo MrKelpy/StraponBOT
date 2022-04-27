@@ -90,7 +90,7 @@ async def handle_waifu_listing(ctx: commands.Context, waifu_list: List[Document]
     timeout_stamp: float = datetime.now().timestamp() + 30.0
     navigation_header: int = starting_index + 1
 
-    dict_loader_data: dict = await dict_loader_func(waifu_list[0], navigation_header, len(waifu_list))  # Creates the dict loader
+    dict_loader_data: dict = await dict_loader_func(waifu_list, navigation_header)  # Creates the dict loader
     first_waifu: discord.Embed = await load_waifu_listing(ctx, dict_loader_data)
 
     await listing_message.edit(embed=first_waifu)  # Edits the embed with a waifu from the starting index to display

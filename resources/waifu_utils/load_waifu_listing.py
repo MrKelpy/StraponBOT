@@ -44,14 +44,14 @@ async def load_waifu_listing(ctx: commands.Context, dict_loader: dict) -> discor
     for value in dict_loader["fields"]:
         waifu_listing_embed.add_field(name=value, value=dict_loader["fields"][value], inline=True)
 
-    # Loads the image into the embed
+    # Loads the image and thumbnail into the embed
     waifu_listing_embed.set_image(url=dict_loader["image"])
+    waifu_listing_embed.set_thumbnail(url=dict_loader["thumbnail"])
 
     # Sets the embed colour
     waifu_listing_embed.colour = dict_loader["colour"]
 
     # Loads the footer into the embed
-    footer_text: str = f"Belongs to {ctx.author.name} -- {dict_loader['navigation']}/{dict_loader['waifu_count']}"
-    waifu_listing_embed.set_footer(text=footer_text, icon_url=ctx.author.avatar_url)
+    waifu_listing_embed.set_footer(text=dict_loader["footer"], icon_url=dict_loader["footer_url"])
 
     return waifu_listing_embed

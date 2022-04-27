@@ -1,7 +1,7 @@
 WAIFU DICT LOADERS
 -----------------
 
-The waifu dict loaders are json serializable dictionaries used to pass and format the information
+The waifu dict loaders are dictionaries used to pass and format the information
 between the waifu in the database and the commands they are requested at.
 
 A waifu dict loader has a lot of key values, that will be specified below:
@@ -9,10 +9,14 @@ A waifu dict loader has a lot of key values, that will be specified below:
 # Base dict loader body
 {
 	"title": str,  // The title of the embed
+	"author": discord.Member, // The ID of the "embed author"
 	"image_url": str,  // The image url of the waifu
+	"thumbnail_url": str,  // The thumbnail url of the waifu
 	"colour": int,  // HEX Value for the colour of the embed
 	"description": list(), // Each element is a line in the description
 	"fields": dict(),  // Each key is a field name, and the value is the string in the field
+	"footer": str,  // The footer text
+	"footer_url": str,  // The footer url (A little icon near the footer)
 	"navigation": int,  // Navigation header
 	"page_count": int  // How many waifus the user has
 }

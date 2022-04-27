@@ -9,25 +9,32 @@ in every distribution, as a "LICENSE" file at top level.
 """
 
 # Built-in Imports
+from typing import List
+
 # Third Party Imports
+import discord
+
 # Local Application Imports
 from resources.LaminariaDB.Document import Document
-from data.globals import fight_config
+from data.globals import fight_config, bot
 
 
-async def make_dict_loader(waifu_document: Document, navigation_header: int, waifu_count: int) -> dict:
+async def make_dict_loader(waifu_document_list: List[Document], navigation_header: int) -> dict:
     """
     Creates a specific dict loader for the "listwaifusimage" command.
-    :param Document waifu_document: The document pointing to the desired waifu in the database
+    This dict loader will create panels for the given waifu at the time, with all of their stats and
+    picture, everything.
+
+    :param Document waifu_document_list: The list of waifus to deal with
     :param int navigation_header: The navigation header pointing to our current position in the visual list
-    :param int waifu_count: The total number of waifus in the database for the user
     :return dict: The dict loader for the "listwaifusimage" command
     """
 
     # Store the element icon in a variable for readability
+    waifu_document: Document = waifu_document_list[0]
     element_icon: str = fight_config['elements'][waifu_document.content['element']]['emoji']
 
-    # Create a dict to store the data we want to return and sets the basic values (title and colour)
+    # Create a dict to store the data we want to return and set the basic values (title and colour)
     dict_loader: dict = dict()
     dict_loader["title"] = waifu_document.content["name"]
     dict_loader["colour"] = waifu_document.content["embed_colour"]
@@ -52,8 +59,10 @@ async def make_dict_loader(waifu_document: Document, navigation_header: int, wai
     dict_loader["fields"]["Luck"] = waifu_document.content["luck"]
 
     # Adds the extra information values into the dict loader
+    author: discord.Member = bot.get_user(waifu_document.content["owner"])
     dict_loader["image"] = waifu_document.content["image"]
-    dict_loader["page_count"] = waifu_count
+    dict_loader["page_count"] = len(waifu_document_list)
     dict_loader["navigation"] = navigation_header
+    dict_loader["footer"] = f"Belongs to {author.name} -- {navigation_header}/{len(waifu_document_list)}"
 
     return dict_loader
