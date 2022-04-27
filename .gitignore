@@ -131,3 +131,4 @@ dmypy.json
 # Useless
 *.iml
 .idea/
+bot.config
