@@ -20,17 +20,16 @@ from data.globals import bot
 from resources.waifu_utils.do_prelisting_jobs import do_prelisting_jobs
 from resources.LaminariaDB.Document import Document
 from tasks.handle_waifu_listing import handle_waifu_listing
-from resources.waifu_dict_loaders.listwaifusimage_dict_loader import make_dict_loader as lwi_dict_loader
+from resources.waifu_dict_loaders.listwaifus_dict_loader import make_dict_loader as lw_dict_loader
 
 
-@bot.command(description="|LISTING| Lists all the adapted waifus and their perks to an user.", aliases=("lwi",))
-async def listwaifusimage(ctx: commands.Context, starting_index: int = 1) -> None:
+@bot.command(description="|LISTING| Lists all of the waifus in the database for a given user", aliases=("lw",))
+async def listwaifus(ctx: commands.Context, starting_index: int = 1):
     """
-    Lists all the waifus for a given user alphabetically in panels, with their stats, perks,
-    image, and so on.
+    Lists all the waifus in the database for a given user, in a paged list of 15 waifus per.
 
-    :param command.Context ctx: The command context
-    :param int starting_index: The index of the waifu to start at.
+    :param commands.Context ctx: The command context
+    :param int starting_index: The starting index for the paged list.
     :return None:
     """
 
@@ -40,4 +39,4 @@ async def listwaifusimage(ctx: commands.Context, starting_index: int = 1) -> Non
 
     waifu_list: List[Document] = sorted(waifu_query, key=lambda x: x.content["name"])
     cache_msg: discord.Message = discord.utils.get(bot.cached_messages, id=listing_message.id)
-    bot.loop.create_task(handle_waifu_listing(ctx, waifu_list, cache_msg, starting_index, lwi_dict_loader))
+    bot.loop.create_task(handle_waifu_listing(ctx, waifu_list, cache_msg, starting_index, lw_dict_loader))

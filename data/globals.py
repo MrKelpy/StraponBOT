@@ -15,6 +15,7 @@ import json
 # Third Party Imports
 from discord.ext import commands as cmds
 from discord import Intents
+import discord
 
 # Local Application Imports
 from resources.config_handler.load_settings import load_settings
@@ -43,3 +44,17 @@ with open("./data/default_messages.json", "r") as default_messages_file:
 
 with open("./data/usage_info", "r") as usage_info_file:
     usage_info: str = usage_info_file.read()
+
+base_dict_loader: dict = {
+    "title": discord.Embed.Empty,
+    "author": discord.Embed.Empty,
+    "image": discord.Embed.Empty,
+    "thumbnail": discord.Embed.Empty,
+    "colour": discord.Embed.Empty,
+    "description": list(),
+    "fields": dict(),
+    "footer": discord.Embed.Empty,
+    "footer_url": discord.Embed.Empty,
+    "navigation": discord.Embed.Empty,
+    "page_count": discord.Embed.Empty,
+}

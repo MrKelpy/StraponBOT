@@ -23,28 +23,9 @@ from resources.waifu_utils.load_waifu_listing import load_waifu_listing
 from data.globals import NEXT_EMOJI, PREV_EMOJI
 
 
-async def update_header(waifu_list: List[Document], increment: bool, current: int) -> int:
-    """
-    Checks whether the header should be incremented or decremented and returns the new header.
-    If one of the ends of the list is reached, loop around.
-    :param List[Document] waifu_list: The waifu list of the user
-    :param bool increment: Whether to increment or decrement the header
-    :param int current: The current value of the header
-    :return int: The new value of the header
-    """
-
-    if increment and current == len(waifu_list):  # The update is incrementing and we're at the end of the list
-        return 1
-
-    if not increment and current == 1:  # The update is decrementing and we're at the first waifu
-        return len(waifu_list)
-
-    return current + 1 if increment else current - 1
-
-
 async def process_reactions(ctx: commands.Context, reaction: discord.Reaction, waifu_list: List[Document],
-                            navigation_header: int, listing_message: discord.Message, increment: bool,
-                            dict_loader_func: Callable) -> Tuple[float, int]:
+                            navigation_header: int, listing_message: discord.Message, dict_loader_func: Callable,
+                            next_page: bool) -> Tuple[float, int]:
     """
     Processes the reaction of the user, moving on to the next waifu or returning to the previous waifu.
 
@@ -54,21 +35,19 @@ async def process_reactions(ctx: commands.Context, reaction: discord.Reaction, w
     :param int navigation_header: The navigation header pointing to the current position in the
     visual list that the user is in
     :param discord.Message listing_message: The waifu listing message to edit and work with
-    :param bool increment: Whether to increment or decrement the header
     :param dict dict_loader_func: The dict loader to use to format the waifu embed
+    :param bool next_page: Whether or not the user is requesting the next or prior page
 
     :return float, int: The new timeout timestamp (+30s), the new navigation header
     """
-
-    navigation_header = await update_header(waifu_list, increment, navigation_header)  # Updates the navigation header
 
     async for user in reaction.users():  # Removes the reaction from every user but the bot
         if user.id == 966370729597730966: continue
         await listing_message.remove_reaction(reaction.emoji, user)
 
-    dict_loader: dict = await dict_loader_func(waifu_list[0], navigation_header, len(waifu_list))  # Creates the dict loader
+    dict_loader: dict = await dict_loader_func(waifu_list, navigation_header, next_page)  # Creates the dict loader
     await listing_message.edit(embed=await load_waifu_listing(ctx, dict_loader))  # Edits the message
-    return datetime.now().timestamp() + 30.0, navigation_header
+    return datetime.now().timestamp() + 30.0, dict_loader['navigation']  # Returns the new timestamp and header
 
 
 async def handle_waifu_listing(ctx: commands.Context, waifu_list: List[Document],
@@ -88,12 +67,12 @@ async def handle_waifu_listing(ctx: commands.Context, waifu_list: List[Document]
     """
 
     timeout_stamp: float = datetime.now().timestamp() + 30.0
-    navigation_header: int = starting_index + 1
+    navigation_header: int = starting_index
 
-    dict_loader_data: dict = await dict_loader_func(waifu_list, navigation_header)  # Creates the dict loader
-    first_waifu: discord.Embed = await load_waifu_listing(ctx, dict_loader_data)
+    dict_loader_data: dict = await dict_loader_func(waifu_list, navigation_header-1, True)  # Creates the dict loader
+    first_listing: discord.Embed = await load_waifu_listing(ctx, dict_loader_data)
 
-    await listing_message.edit(embed=first_waifu)  # Edits the embed with a waifu from the starting index to display
+    await listing_message.edit(embed=first_listing)  # Edits the embed with a waifu from the starting index to display
     await listing_message.add_reaction(PREV_EMOJI)
     await listing_message.add_reaction(NEXT_EMOJI)
 
@@ -102,14 +81,12 @@ async def handle_waifu_listing(ctx: commands.Context, waifu_list: List[Document]
         for reaction in listing_message.reactions:
 
             if reaction.emoji == NEXT_EMOJI and reaction.count > 1:  # Checks if the reaction is the "next" emoji
-                waifu_list.append(waifu_list.pop(0))  # Moves the first waifu to the end of the list
                 timeout_stamp, navigation_header = await process_reactions(ctx, reaction, waifu_list, navigation_header,
-                                                                           listing_message, True, dict_loader_func)
+                                                                           listing_message, dict_loader_func, True)
 
             elif reaction.emoji == PREV_EMOJI and reaction.count > 1:  # Checks if the reaction is the "previous" emoji
-                waifu_list.insert(0, waifu_list.pop(-1))  # Moves the last waifu to the start of the list
                 timeout_stamp, navigation_header = await process_reactions(ctx, reaction, waifu_list, navigation_header,
-                                                                           listing_message, False, dict_loader_func)
+                                                                           listing_message, dict_loader_func, False)
 
             await asyncio.sleep(0.05)
 

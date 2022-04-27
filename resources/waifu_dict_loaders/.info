@@ -11,14 +11,14 @@ A waifu dict loader has a lot of key values, that will be specified below:
 	"title": str,  // The title of the embed
 	"author": discord.Member, // The ID of the "embed author"
 	"image_url": str,  // The image url of the waifu
-	"thumbnail_url": str,  // The thumbnail url of the waifu
+	"thumbnail": str,  // The thumbnail url of the waifu
 	"colour": int,  // HEX Value for the colour of the embed
 	"description": list(), // Each element is a line in the description
 	"fields": dict(),  // Each key is a field name, and the value is the string in the field
 	"footer": str,  // The footer text
 	"footer_url": str,  // The footer url (A little icon near the footer)
-	"navigation": int,  // Navigation header
-	"page_count": int  // How many waifus the user has
+	"navigation": int,  // Navigation header (MANDATORY.)
+	"page_count": int  // How many waifu pages the listing has
 }
 
 Most of the values in the dict loader are gathered via the get_waifu_details function, and formatted

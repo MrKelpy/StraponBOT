@@ -1,0 +1,62 @@
+{
+    "name": "Louise (SnK)",
+    "source": "Shingeki no Kyojin",
+    "image": "https://imgur.com/F8xsKtg.png",
+    "embed_colour": 6753288,
+    "gender": "female",
+    "owner": 740969223681212507,
+    "level": 1,
+    "exp": 0,
+    "next_level": 100,
+    "skill_points": 2,
+    "physical_dmg": 1,
+    "magical_dmg": 1,
+    "physical_def": 1,
+    "magical_def": 1,
+    "speed": 1,
+    "luck": 0,
+    "max_hp": 100,
+    "hp": 100,
+    "class": null,
+    "element": "Pyro",
+    "artefacts": 0,
+    "messages": {
+        "death": [
+            "{SELF-WAIFU} has been defeated by {OPPONENT-WAIFU}."
+        ],
+        "attack-normal": [
+            "{SELF-WAIFU} injured {OPPONENT-WAIFU} with a heavy blow!",
+            "{SELF-WAIFU} attacked {OPPONENT-WAIFU}!",
+            "{SELF-WAIFU} struck {OPPONENT-WAIFU}!",
+            "{SELF-WAIFU} hit {OPPONENT-WAIFU}!",
+            "{SELF-WAIFU} delivered an uppercut to {OPPONENT-WAIFU}!",
+            "{SELF-WAIFU} dealt a powerful blow to {OPPONENT-WAIFU}!"
+        ],
+        "attack-critical": [
+            "{SELF-WAIFU} injured {OPPONENT-WAIFU} with a devastating blow!",
+            "{SELF-WAIFU} cracked {OPPONENT-WAIFU}'s bones!",
+            "{SELF-WAIFU} struck {OPPONENT-WAIFU} with a powerful attack!",
+            "{SELF-WAIFU} landed a critical hit on {OPPONENT-WAIFU}!",
+            "{SELF-WAIFU} dealt a devastating blow to {OPPONENT-WAIFU}!",
+            "{SELF-WAIFU} landed a massively huge hit on {OPPONENT-WAIFU}!"
+        ],
+        "attack-special": [],
+        "defense": [
+            "{SELF-WAIFU} defended itself from {OPPONENT-WAIFU}!",
+            "{SELF-WAIFU} tanked {OPPONENT-WAIFU}'s attack!",
+            "{SELF-WAIFU} resisted {OPPONENT-WAIFU}'s attack!",
+            "{SELF-WAIFU} defied {OPPONENT-WAIFU}'s blow!"
+        ],
+        "dodge": [
+            "{SELF-WAIFU} dodged {OPPONENT-WAIFU}'s attack!",
+            "{SELF-WAIFU} evaded {OPPONENT-WAIFU}'s attack!",
+            "{OPPONENT-WAIFU} failed to hit {SELF-WAIFU}!",
+            "{OPPONENT-WAIFU}'s attack missed!"
+        ],
+        "level-up": [
+            "{SELF-WAIFU} Leveled up to level {LEVEL}!"
+        ]
+    },
+    "_id": "51ff4a67-d0ff-4dd7-924c-a0f5fa6d915f",
+    "_collection": "834833044711276604"
+}
