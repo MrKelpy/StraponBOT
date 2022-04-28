@@ -67,5 +67,6 @@ async def make_dict_loader(waifu_document_list: List[Document], navigation_heade
     dict_loader["image"] = waifu_document.content["image"]
     dict_loader["navigation"] = navigation_header
     dict_loader["footer"] = f"Belongs to {author.name} -- {navigation_header}/{len(waifu_document_list)}"
+    dict_loader["footer_url"] = author.avatar_url
 
     return dict_loader

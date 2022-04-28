@@ -23,7 +23,7 @@ from resources.ensure_collection import ensure_collection
 from data.globals import FAILED_EMOJI
 
 
-async def do_prelisting_jobs(ctx: commands.Context, starting_index: int) -> Union[bool, Tuple[List[Document], discord.Message]]:
+async def do_prelisting_jobs(ctx: commands.Context, starting_index: int) -> Tuple[Union[bool, List[Document]], discord.Message]:
     """
     Performs pre-listing jobs such as checking the inputs to the command
     and other tasks that need to be done before every listing command shows their list.
@@ -44,12 +44,12 @@ async def do_prelisting_jobs(ctx: commands.Context, starting_index: int) -> Unio
     if starting_index < 1 or starting_index > len(waifu_query):
         await listing_message.delete()
         await ctx.message.add_reaction(FAILED_EMOJI)
-        return False
+        return False, listing_message
 
-    # Lets the user know that they don't have any adapted waifus.
+    # Lets the user kn  ow that they don't have any adapted waifus.
     if not waifu_query:
-        await listing_message.delete()
-        await ctx.send(f"No results.")
-        return False
+        await listing_message.edit(content="No results.", embed=None)
+        await ctx.message.add_reaction(FAILED_EMOJI)
+        return False, listing_message
 
     return waifu_query, listing_message

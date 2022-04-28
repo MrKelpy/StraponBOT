@@ -47,7 +47,8 @@ with open("./data/usage_info", "r") as usage_info_file:
 
 base_dict_loader: dict = {
     "title": discord.Embed.Empty,
-    "author": discord.Embed.Empty,
+    "author_name": "",
+    "author_icon_url": discord.Embed.Empty,
     "image": discord.Embed.Empty,
     "thumbnail": discord.Embed.Empty,
     "colour": discord.Embed.Empty,

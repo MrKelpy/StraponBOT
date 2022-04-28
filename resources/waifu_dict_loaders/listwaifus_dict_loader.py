@@ -37,8 +37,8 @@ async def make_dict_loader(waifu_document_list: List[Document], navigation_heade
 
     # Set the basic values
     author: discord.Member = bot.get_user(waifu_document_list[0].content["owner"])
-    dict_loader["title"] = f"{author.name}'s Harem"
-    dict_loader["author"] = author
+    dict_loader["author_name"] = f"{author.name}'s Harem"
+    dict_loader["author_icon_url"] = author.avatar_url
     dict_loader["colour"] = discord.Colour.dark_red()
 
     # Prepare the description and page count to set it into the embed

@@ -58,7 +58,7 @@ class Collection:
         self.__drop_cache()
         return affected
 
-
+    # noinspection PyTypeChecker
     def find(self, query: Dict[str, Any] = None, limit: int = None) -> List[Document]:
         """
         Returns all the Documents with information that matches the query.

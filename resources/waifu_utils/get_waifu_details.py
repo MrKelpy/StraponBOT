@@ -52,7 +52,7 @@ async def get_waifu_details(ctx: commands.Context) -> Dict[str, object]:
     source: str = await get_source(waifu_message.embeds[0].description)
 
     waifu_details: dict = {
-        "name": waifu_message.embeds[0].author.name,
+        "name": waifu_message.embeds[0].author.name.lower(),
         "source": source.split("<")[0].strip(),
         "image": waifu_message.embeds[0].image.url,
         "embed_colour": waifu_message.embeds[0].colour.value,

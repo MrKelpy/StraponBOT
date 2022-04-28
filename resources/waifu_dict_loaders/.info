@@ -9,7 +9,8 @@ A waifu dict loader has a lot of key values, that will be specified below:
 # Base dict loader body
 {
 	"title": str,  // The title of the embed
-	"author": discord.Member, // The ID of the "embed author"
+	"author_name": str, // The name of the "embed author"
+	"author_icon_url": str, // The icon url of the "embed author"
 	"image_url": str,  // The image url of the waifu
 	"thumbnail": str,  // The thumbnail url of the waifu
 	"colour": int,  // HEX Value for the colour of the embed

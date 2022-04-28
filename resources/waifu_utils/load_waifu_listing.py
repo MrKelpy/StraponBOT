@@ -48,10 +48,9 @@ async def load_waifu_listing(ctx: commands.Context, dict_loader: dict) -> discor
     waifu_listing_embed.set_image(url=dict_loader["image"])
     waifu_listing_embed.set_thumbnail(url=dict_loader["thumbnail"])
 
-    # Sets the embed colour
-    waifu_listing_embed.colour = dict_loader["colour"]
-
-    # Loads the footer into the embed
+    # Sets the embed colour, the footer and author into the embed
     waifu_listing_embed.set_footer(text=dict_loader["footer"], icon_url=dict_loader["footer_url"])
+    waifu_listing_embed.set_author(name=dict_loader["author_name"], icon_url=dict_loader["author_icon_url"])
+    waifu_listing_embed.colour = dict_loader["colour"]
 
     return waifu_listing_embed
