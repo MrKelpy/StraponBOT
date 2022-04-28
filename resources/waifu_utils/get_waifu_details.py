@@ -46,8 +46,12 @@ async def get_waifu_details(ctx: commands.Context) -> Dict[str, object]:
 
     # Like in the validate_waifu function, we need to get the waifu message. However, this time,
     # we are guaranteed the position of the waifu message, since it's already been validated.
-    waifu_message: List[discord.Message] = await ctx.channel.history(limit=2).flatten()
-    waifu_message: discord.Message = waifu_message[-1]
+    if ctx.message.reference:
+        waifu_message: discord.Message = await ctx.channel.fetch_message(ctx.message.reference.message_id)
+    else:
+        waifu_message: List[discord.Message] = await ctx.channel.history(limit=2).flatten()
+        waifu_message: discord.Message = waifu_message[-1]
+        
     kakera_value_line: str = [x for x in waifu_message.embeds[0].description.split("\n") if "Animanga roulette" in x][0]
     source: str = await get_source(waifu_message.embeds[0].description)
 

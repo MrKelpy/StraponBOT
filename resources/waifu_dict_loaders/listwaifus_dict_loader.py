@@ -18,7 +18,7 @@ import discord
 # Local Application Imports
 from resources.LaminariaDB.Document import Document
 from resources.waifu_utils.fix_navigation_header import fix_navigation_header
-from data.globals import bot, base_dict_loader
+from data.globals import bot, base_dict_loader, fight_config
 
 
 async def make_dict_loader(waifu_document_list: List[Document], navigation_header: int, next_page: bool) -> dict:
@@ -42,7 +42,9 @@ async def make_dict_loader(waifu_document_list: List[Document], navigation_heade
     dict_loader["colour"] = discord.Colour.dark_red()
 
     # Prepare the description and page count to set it into the embed
-    chunked_waifu_list: List[List[str]] = list(chunked([x.content["name"] for x in waifu_document_list], 15))
+    chunked_waifu_list: List[List[str]] = \
+        list(chunked([f"{x.content['name'].title()} {fight_config['elements'][x.content['element']]['emoji']}"
+                      for x in waifu_document_list], 15))
     page_count: int = len(chunked_waifu_list) + 1 if not float(len(chunked_waifu_list)).is_integer() \
         else len(chunked_waifu_list)
 
@@ -55,7 +57,7 @@ async def make_dict_loader(waifu_document_list: List[Document], navigation_heade
 
     # Get the image from the waifu_document_list of the waifu with the same name as the first in the chunked list
     # and set it as the thumbnail
-    dict_loader["thumbnail"] = [x.content["image"] for x in waifu_document_list
-                                if x.content["name"] == chunked_waifu_list[navigation_header-1][0]][0]
+    dict_loader["thumbnail"] = [x.content["image"] for x in waifu_document_list if x.content["name"] ==
+                                chunked_waifu_list[navigation_header-1][0].split("<")[0].strip().lower()][0]
 
     return dict_loader

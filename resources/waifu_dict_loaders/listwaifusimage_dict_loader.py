@@ -40,7 +40,7 @@ async def make_dict_loader(waifu_document_list: List[Document], navigation_heade
 
     # Create a dict to store the data we want to return and set the basic values (title and colour)
     dict_loader: dict = base_dict_loader.copy()
-    dict_loader["title"] = waifu_document.content["name"]
+    dict_loader["title"] = waifu_document.content["name"].title()
     dict_loader["colour"] = waifu_document.content["embed_colour"]
 
     # Adds the description values into the dict loader

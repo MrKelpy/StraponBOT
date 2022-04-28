@@ -40,7 +40,7 @@ async def peek(ctx: commands.Context, *, waifu_name: str):
     listing_message: discord.Message = await dpy_utils.send_loading(ctx.channel)
 
     waifu_collection: Collection = await ensure_collection(str(ctx.guild.id))
-    waifu_query: List[Document] = waifu_collection.find(query={"name": waifu_name})
+    waifu_query: List[Document] = waifu_collection.find(query={"name": waifu_name.lower()})
 
     if not waifu_query:
         await listing_message.edit(content="No results!", embed=None)

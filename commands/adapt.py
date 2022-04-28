@@ -33,6 +33,8 @@ async def adapt(ctx: commands.Context):
         await ctx.message.add_reaction(FAILED_EMOJI)
         return
 
+    await ctx.message.add_reaction(SUCCESS_EMOJI)
+
     waifu_details: dict = await get_waifu_details(ctx)
     waifu_details["owner"] = ctx.author.id
     waifu_details["level"] = 1
@@ -55,5 +57,4 @@ async def adapt(ctx: commands.Context):
 
     waifus_collection: Collection = await ensure_collection(str(ctx.guild.id))
     waifus_collection.insert_one(waifu_details)
-
-    await ctx.message.add_reaction(SUCCESS_EMOJI)
+    
