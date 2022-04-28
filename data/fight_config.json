@@ -63,6 +63,13 @@
                 "Anemo",
                 "Hydro"
             ]
+        },
+        "Normal": {
+            "name": "Normal",
+            "emoji": "<:normal:969229510392311808>",
+            "description": "Normal is the neutral element. It's not particularly strong against anything.",
+            "strong_against": [],
+            "weak_against": []
         }
     }
 }

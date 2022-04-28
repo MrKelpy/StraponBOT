@@ -52,7 +52,7 @@ async def get_waifu_details(ctx: commands.Context) -> Dict[str, object]:
         waifu_message: List[discord.Message] = await ctx.channel.history(limit=2).flatten()
         waifu_message: discord.Message = waifu_message[-1]
         
-    kakera_value_line: str = [x for x in waifu_message.embeds[0].description.split("\n") if "Animanga roulette" in x][0]
+    kakera_value_line: str = [x for x in waifu_message.embeds[0].description.split("\n") if "Animanga roulette" in x or "Game roulette" in x][0]
     source: str = await get_source(waifu_message.embeds[0].description)
 
     waifu_details: dict = {
