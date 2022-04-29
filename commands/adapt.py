@@ -12,6 +12,7 @@ in every distribution, as a "LICENSE" file at top level.
 import random
 
 # Third Party Imports
+import discord
 from discord.ext import commands
 
 # Local Application Imports
@@ -29,13 +30,14 @@ async def adapt(ctx: commands.Context):
     usable fighting bot waifu, adding it to the database.
     """
 
-    if not await validate_waifu(ctx):
+    waifu_message: discord.Message = await validate_waifu(ctx)
+    if not waifu_message:
         await ctx.message.add_reaction(FAILED_EMOJI)
         return
 
     await ctx.message.add_reaction(SUCCESS_EMOJI)
 
-    waifu_details: dict = await get_waifu_details(ctx)
+    waifu_details: dict = await get_waifu_details(ctx, waifu_message)
     waifu_details["owner"] = ctx.author.id
     waifu_details["level"] = 1
     waifu_details["exp"] = 0

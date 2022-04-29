@@ -10,18 +10,16 @@ in every distribution, as a "LICENSE" file at top level.
 
 # Built-in Imports
 # Third Party Imports
-from discord.ext import commands
 import discord
 
 # Local Application Imports
 from data.embeds import waifu_listing_embed_build
 
 
-async def load_waifu_listing(ctx: commands.Context, dict_loader: dict) -> discord.Embed:
+async def parse_dict_loader(dict_loader: dict) -> discord.Embed:
     """
     Iterates over the dict_loader parameters amd creates an embed with the information
     of a waifu.
-    :param commands.Context ctx: The command context
     :param dict dict_loader: The dictionary containing information for the embed to be loaded with.
     This "dict_loader" follows a common pattern that is recognised by this function. It tells the function
     what should go into the embed title, with the "title" key, what should go into the description, using the "description"

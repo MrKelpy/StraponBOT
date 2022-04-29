@@ -41,7 +41,7 @@ async def get_trigger_message(ctx: commands.Context, waifu_message: discord.Mess
         return None
 
 
-async def validate_waifu(ctx: commands.Context) -> bool:
+async def validate_waifu(ctx: commands.Context) -> Optional[discord.Message]:
     """
     Checks if the last message came from Mudae, and contains valid waifu that isn't already in the database.
     :return bool: True if the last message came from Mudae, and contains a valid waifu.
@@ -56,7 +56,7 @@ async def validate_waifu(ctx: commands.Context) -> bool:
         waifu_message: discord.Message = waifu_message[-1]
 
     if not waifu_message.author.id == MUDAE_ID:
-        return False
+        return None
 
     # Get the message prior to the last message.
     waifu_trigger_message: discord.Message = await get_trigger_message(ctx, waifu_message)
@@ -74,6 +74,6 @@ async def validate_waifu(ctx: commands.Context) -> bool:
                                                             limit=1)
     # If either validation fails, return False.
     if not trigger_message_validation or not waifu_message_validation or not duplicate_validation:
-        return False
+        return None
 
-    return True
+    return waifu_message

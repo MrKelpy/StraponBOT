@@ -9,7 +9,7 @@ in every distribution, as a "LICENSE" file at top level.
 """
 
 # Built-in Imports
-from typing import List, Dict
+from typing import Dict
 import re
 
 # Third Party Imports
@@ -37,21 +37,14 @@ async def get_source(description: str) -> str:
     return source.strip()
 
 
-async def get_waifu_details(ctx: commands.Context) -> Dict[str, object]:
+async def get_waifu_details(ctx: commands.Context, waifu_message: discord.Message) -> Dict[str, object]:
     """
     Once a waifu has been validated, this function will return its details, in the form of a dict.
     :param commands.Context ctx: The command context
+    :param discord.Message waifu_message: The message containing the waifu embed
     :return Dict: The waifu details dict
     """
 
-    # Like in the validate_waifu function, we need to get the waifu message. However, this time,
-    # we are guaranteed the position of the waifu message, since it's already been validated.
-    if ctx.message.reference:
-        waifu_message: discord.Message = await ctx.channel.fetch_message(ctx.message.reference.message_id)
-    else:
-        waifu_message: List[discord.Message] = await ctx.channel.history(limit=2).flatten()
-        waifu_message: discord.Message = waifu_message[-1]
-        
     kakera_value_line: str = [x for x in waifu_message.embeds[0].description.split("\n") if "Animanga roulette" in x or "Game roulette" in x][0]
     source: str = await get_source(waifu_message.embeds[0].description)
 

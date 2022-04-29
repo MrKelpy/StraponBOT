@@ -24,3 +24,11 @@ help_info_embed: discord.Embed = discord.Embed(
 
 waifu_listing_embed_build: discord.Embed = discord.Embed(
 )
+
+
+captcha_embed_build: discord.Embed() = discord.Embed(
+    title="Congratulations! You have been killed!",
+    description="Why? How? What? Who? Haha! Well then, you managed to be so god damn annoying that someone ended up "
+                "killing you! How nice! Now, if you want to go back, solve this captcha!",
+    color=discord.Colour.dark_red()
+)

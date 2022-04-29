@@ -19,7 +19,7 @@ import asyncio
 
 # Local Application Imports
 from resources.LaminariaDB.Document import Document
-from resources.waifu_utils.load_waifu_listing import load_waifu_listing
+from resources.waifu_utils.parse_dict_loader import parse_dict_loader
 from data.globals import NEXT_EMOJI, PREV_EMOJI
 
 
@@ -46,11 +46,11 @@ async def process_reactions(ctx: commands.Context, reaction: discord.Reaction, w
         await listing_message.remove_reaction(reaction.emoji, user)
 
     dict_loader: dict = await dict_loader_func(waifu_list, navigation_header, next_page)  # Creates the dict loader
-    await listing_message.edit(embed=await load_waifu_listing(ctx, dict_loader))  # Edits the message
+    await listing_message.edit(embed=await parse_dict_loader(dict_loader))  # Edits the message
     return datetime.now().timestamp() + 30.0, dict_loader['navigation']  # Returns the new timestamp and header
 
 
-async def handle_waifu_listing(ctx: commands.Context, waifu_list: List[Document],
+async def handle_waifu_listing(ctx: commands.Context, waifu_list: list,
                                listing_message: discord.Message, starting_index: int, dict_loader_func: Callable):
     """
     Handles the listing of an user's waifus. This function will listen for any reactions added to the message
@@ -70,7 +70,7 @@ async def handle_waifu_listing(ctx: commands.Context, waifu_list: List[Document]
     navigation_header: int = starting_index
 
     dict_loader_data: dict = await dict_loader_func(waifu_list, navigation_header-1, True)  # Creates the dict loader
-    first_listing: discord.Embed = await load_waifu_listing(ctx, dict_loader_data)
+    first_listing: discord.Embed = await parse_dict_loader(dict_loader_data)
 
     await listing_message.edit(embed=first_listing)  # Edits the embed with a waifu from the starting index to display
     await listing_message.add_reaction(PREV_EMOJI)
@@ -88,7 +88,7 @@ async def handle_waifu_listing(ctx: commands.Context, waifu_list: List[Document]
                 timeout_stamp, navigation_header = await process_reactions(ctx, reaction, waifu_list, navigation_header,
                                                                            listing_message, dict_loader_func, False)
 
-            await asyncio.sleep(0.05)
+            await asyncio.sleep(0.01)
 
     # Edits the embed to show that the listing is locked when the timeout is reached
     listing_message.embeds[0].set_footer(text=listing_message.embeds[0].footer.text + " 🔒 Locked",

@@ -6,11 +6,6 @@
             "description": "Pyro is the fire element. It's the strongest purely fire-based element.",
             "strong_against": [
                 "Electro"
-            ],
-            "weak_against": [
-                "Electro",
-                "Hydro",
-                "Anemo"
             ]
         },
         "Hydro": {
@@ -20,9 +15,6 @@
             "strong_against": [
                 "Pyro",
                 "Geo"
-            ],
-            "weak_against": [
-                "Electro"
             ]
         },
         "Anemo": {
@@ -30,11 +22,7 @@
             "emoji": "<:anemo:967008595336122378>",
             "description": "Anemo is the air element. It's the strongest purely air-based element.",
             "strong_against": [
-                "Pyro",
-                "Geo"
-            ],
-            "weak_against": [
-                "Electro"
+                "Pyro"
             ]
         },
         "Electro": {
@@ -42,13 +30,7 @@
             "emoji": "<:electro:967008552671674369>",
             "description": "Electro is the electric element. It's the strongest purely electric-based element.",
             "strong_against": [
-                "Pyro",
-                "Hydro",
-                "Anemo"
-            ],
-            "weak_against": [
-                "Pyro",
-                "Geo"
+                "Hydro"
             ]
         },
         "Geo": {
@@ -56,20 +38,14 @@
             "emoji": "<:geo:967008429073891368>",
             "description": "Geo is the earth element. It's the strongest purely earth-based element.",
             "strong_against": [
-                "Pyro",
                 "Electro"
-            ],
-            "weak_against": [
-                "Anemo",
-                "Hydro"
             ]
         },
         "Normal": {
             "name": "Normal",
             "emoji": "<:normal:969229510392311808>",
             "description": "Normal is the neutral element. It's not particularly strong against anything.",
-            "strong_against": [],
-            "weak_against": []
+            "strong_against": []
         }
     }
 }
