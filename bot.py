@@ -19,6 +19,7 @@ import discord
 from tasks.startup.show_bot_info import show_bot_info
 from tasks.startup.register_commands import register_commands
 from tasks.startup.register_events import register_events
+from tasks.startup.purge_hell import purge_hell
 from data.globals import bot, token, prefix
 
 
@@ -41,6 +42,8 @@ async def on_ready():
     await register_commands()
     await show_bot_info(bot)
 
+    # Cleanse the hell channels and the dead roles from the users
+    await purge_hell()
 
 if __name__ == "__main__":
     try:

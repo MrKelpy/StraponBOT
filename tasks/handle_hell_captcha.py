@@ -38,14 +38,15 @@ async def handle_hell_captcha(hell_channel: discord.TextChannel, member: discord
 
     # Prepares the captcha, and writes it into the captcha path (./assets)
     image: ImageCaptcha = ImageCaptcha(width=280, height=90)
-    captcha_text: str = ''.join([random.choice(string.ascii_lowercase) for _ in range(6)])
+    captcha_text: str = ''.join([random.choice(string.ascii_lowercase + string.digits) for _ in range(10)])
     captcha_image_path: str = f'./assets/{int(datetime.now().timestamp())}.png'
     image.write(captcha_text, captcha_image_path)
+    print(f"GENERATED CAPTCHA FOR {member.name}: {captcha_text}")
 
     # Prepares the captcha embed and sends it to the chat
     captcha_embed: discord.Embed = captcha_embed_build.copy()
     file: discord.File = discord.File(captcha_image_path, filename='captcha.png')
-    await hell_channel.send(embed=captcha_embed)
+    await hell_channel.send(content=member.mention, embed=captcha_embed)
     await hell_channel.send(file=file)
 
     # Gets the dead role (to remove from the user once they've finished the captcha
@@ -55,11 +56,12 @@ async def handle_hell_captcha(hell_channel: discord.TextChannel, member: discord
     while True:
         latest_message: discord.Message = await hell_channel.history(limit=1).flatten()
 
-        if latest_message[0].author == member and latest_message[0].content == captcha_text:
+        if latest_message[0].author == member and latest_message[0].content.lower() == captcha_text:
             break
 
         await asyncio.sleep(1)
 
+    await member.edit(mute=False)
     await member.remove_roles(dead_role)
     await hell_channel.delete()
     os.remove(captcha_image_path)

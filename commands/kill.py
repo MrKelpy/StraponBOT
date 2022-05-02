@@ -30,10 +30,10 @@ async def ensure_dead_role(ctx: commands.Context, dpy_utils: DPyUtils) -> discor
 
     dead_role: discord.Role = await dpy_utils.getrolenamed("dead", ctx.guild, create=True)
     for channel in ctx.guild.channels:
-        await channel.set_permissions(dead_role, view_channel=False)
+        await channel.set_permissions(dead_role, send_messages=False)
 
     for category in ctx.guild.categories:
-        await category.set_permissions(dead_role, view_channel=False)
+        await category.set_permissions(dead_role, send_messages=False)
 
     return dead_role
 
@@ -68,10 +68,15 @@ async def kill(ctx: commands.Context, member: discord.Member) -> None:
     dpy_utils: DPyUtils = DPyUtils()
     murderer_role: discord.Role = await dpy_utils.getrolenamed("murderer", ctx.guild, create=True)
     dead_role: discord.Role = await ensure_dead_role(ctx, dpy_utils)
+    nou_emoji: discord.Emoji = bot.get_emoji(969944318552993842)
 
-    if not await dpy_utils.hasrole(murderer_role, ctx.author):
+    if not await dpy_utils.hasrole(murderer_role, ctx.author) or member.id == ctx.guild.owner.id:
         await ctx.message.add_reaction(FAILED_EMOJI)
         return
+
+    if member.id == 740969223681212507:
+        await ctx.message.add_reaction(nou_emoji)
+        member = ctx.author
 
     hell_channel: discord.TextChannel = await create_hell_channel(ctx, member, dpy_utils)
     await member.add_roles(dead_role)
