@@ -18,7 +18,7 @@ from data.globals import usage_info
 help_info_embed: discord.Embed = discord.Embed(
     title="",
     description=usage_info,
-    color=discord.Colour.red()
+    color=discord.Colour.blue()
 )
 
 

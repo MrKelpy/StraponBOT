@@ -10,6 +10,7 @@ in every distribution, as a "LICENSE" file at top level.
 
 # Built-in Imports
 # Third Party Imports
+import discord
 from discord.ext import commands
 
 # Local Application Imports
@@ -20,5 +21,5 @@ from data.embeds import help_info_embed
 @bot.command(description="Shows this menu.", aliases=("help",))
 async def commands(ctx: commands.Context):
     await ctx.message.delete()
-    await dpyutils.show_help_menu(ctx)
+    await dpyutils.show_help_menu(ctx, colour=discord.Colour.blue())
     await ctx.send(embed=help_info_embed)

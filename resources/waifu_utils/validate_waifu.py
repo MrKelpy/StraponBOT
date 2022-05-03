@@ -20,26 +20,7 @@ from data.globals import MUDAE_ID
 from resources.LaminariaDB.LaminariaDB import Collection
 from resources.LaminariaDB.Document import Document
 from resources.ensure_collection import ensure_collection
-
-
-async def get_trigger_message(ctx: commands.Context, waifu_message: discord.Message) -> Optional[discord.Message]:
-    """
-    Returns the message prior to the given waifu_message.
-    :param commands.Context ctx: The command context
-    :param discord.Message waifu_message: The reference message.
-    :return discord.Message: The message prior to the waifu_message.
-    """
-
-    lookup_index: int = 0
-    async for message in ctx.channel.history(limit=None):
-        if message.id == waifu_message.id:
-            waifu_message_range: List[discord.Message] = await ctx.channel.history(limit=lookup_index+2).flatten()
-            waifu_trigger_message: discord.Message = waifu_message_range[-1]
-            return waifu_trigger_message
-
-        lookup_index += 1
-    else:
-        return None
+from resources.waifu_utils.get_trigger_message import get_trigger_message
 
 
 async def check_for_reclaim(trigger_message: discord.Message, waifu_document: Document) -> bool:
@@ -75,9 +56,10 @@ async def validate_waifu(ctx: commands.Context) -> Union[Optional[discord.Messag
 
     # Get the message prior to the last message.
     waifu_trigger_message: discord.Message = await get_trigger_message(ctx, waifu_message)
+    if not waifu_trigger_message: return None
 
     # Make sure that the user isn't trying to use the mmi on someone else's harem.
-    trigger_message_validation: bool = not waifu_trigger_message.mentions and \
+    trigger_message_validation: bool = not waifu_trigger_message.mentions and waifu_trigger_message.author.id == ctx.author.id and \
                                        waifu_trigger_message.content.startswith("$mmi")
 
     # Make sure that the last message is a waifu message.
@@ -93,7 +75,7 @@ async def validate_waifu(ctx: commands.Context) -> Union[Optional[discord.Messag
         return waifu_document[0]
 
     # If either validation fails, return False.
-    if not trigger_message_validation or not waifu_message_validation or waifu_document:
+    if not (trigger_message_validation or waifu_message_validation) or waifu_document:
         return None
 
     return waifu_message

@@ -24,7 +24,7 @@ from resources.LaminariaDB.Collection import Collection
 from resources.LaminariaDB.Document import Document
 
 
-@bot.command(description="|UTILITY| Adapts a mudae waifu to the fighting bot")
+@bot.command(description="|WAIFU| Adapts a mudae waifu to the fighting bot")
 async def adapt(ctx: commands.Context):
     """
     Adapts a mudae waifu to the fighting bot. This will convert a given waifu from the mudae bot into an
@@ -33,8 +33,7 @@ async def adapt(ctx: commands.Context):
 
     waifu: discord.Message = await validate_waifu(ctx)
     if not waifu:
-        await ctx.message.add_reaction(FAILED_EMOJI)
-        return
+        return await ctx.message.add_reaction(FAILED_EMOJI)
 
     if type(waifu) is Document:  # Handles a waifu reclaim transference
         waifu.content["owner"] = ctx.author.id

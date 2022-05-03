@@ -41,8 +41,7 @@ async def elementhelp(ctx, element: str = "Pyro"):
 
     if element.title() not in element_list:
         await listing_message.edit(content="No results!", embed=None)
-        await ctx.message.add_reaction(FAILED_EMOJI)
-        return
+        return await ctx.message.add_reaction(FAILED_EMOJI)
 
     bot.loop.create_task(handle_waifu_listing(ctx, element_list, cache_msg,
                                               element_list.index(element.title()) + 1, eh_dict_loader))

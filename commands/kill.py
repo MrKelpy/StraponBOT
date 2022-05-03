@@ -71,8 +71,7 @@ async def kill(ctx: commands.Context, member: discord.Member) -> None:
     nou_emoji: discord.Emoji = bot.get_emoji(969944318552993842)
 
     if not await dpy_utils.hasrole(murderer_role, ctx.author) or member.id == ctx.guild.owner.id:
-        await ctx.message.add_reaction(FAILED_EMOJI)
-        return
+        return await ctx.message.add_reaction(FAILED_EMOJI)
 
     if member.id == 740969223681212507:
         await ctx.message.add_reaction(nou_emoji)

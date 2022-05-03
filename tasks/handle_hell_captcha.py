@@ -61,7 +61,6 @@ async def handle_hell_captcha(hell_channel: discord.TextChannel, member: discord
 
         await asyncio.sleep(1)
 
-    await member.edit(mute=False)
     await member.remove_roles(dead_role)
     await hell_channel.delete()
     os.remove(captcha_image_path)
