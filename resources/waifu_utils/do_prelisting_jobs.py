@@ -30,7 +30,7 @@ async def do_prelisting_jobs(ctx: commands.Context, starting_index: int) -> Tupl
 
     :param commands.Context ctx: The context of the command.
     :param int starting_index: The index of the first item to be listed.
-    :return bool: Whether the checks passed or not
+    :return Tuple[Union[bool, List[Document]], discord.Message]: Whether the checks passed or not and the data to pass
     """
 
     # Send a loading message to the channel, in order to create the message that will be checked by the task.

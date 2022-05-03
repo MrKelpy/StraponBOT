@@ -16,7 +16,7 @@ import discord
 from discord.ext import commands
 
 # Local Application Imports
-from data.globals import bot
+from data.globals import bot, FAILED_EMOJI
 from resources.waifu_utils.do_prelisting_jobs import do_prelisting_jobs
 from resources.LaminariaDB.Document import Document
 from tasks.handle_waifu_listing import handle_waifu_listing
@@ -42,3 +42,15 @@ async def listwaifusmagicdef(ctx: commands.Context, starting_index: int = 1):
     waifu_list: List[Document] = sorted(waifu_query, key=lambda x: x.content["magical_def"], reverse=True)
     cache_msg: discord.Message = discord.utils.get(bot.cached_messages, id=listing_message.id)
     bot.loop.create_task(handle_waifu_listing(ctx, waifu_list, cache_msg, starting_index, lw_dict_loader))
+
+
+@listwaifusmagicdef.error
+async def listwaifusmagicdef_error(error, ctx: commands.Context):
+    """
+    Handles errors for the listwaifusmagicdef command.
+
+    :param error: The error that occurred
+    :param commands.Context ctx: The command context
+    :return None:
+    """
+    await ctx.message.add_reaction(FAILED_EMOJI)

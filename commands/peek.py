@@ -25,7 +25,7 @@ from tasks.handle_waifu_listing import handle_waifu_listing
 from resources.waifu_dict_loaders.listwaifusimage_dict_loader import make_dict_loader as lwi_dict_loader
 
 
-@bot.command(description="Shows information about all the characters matching the name given")
+@bot.command(description="|UTILITY| Shows information about all the characters matching the name given")
 async def peek(ctx: commands.Context, *, waifu_name: str):
     """
     Shows panelled informatiom about a waifu from anyone in the database that matches the name given.

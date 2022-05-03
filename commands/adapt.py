@@ -21,23 +21,29 @@ from resources.waifu_utils.validate_waifu import validate_waifu
 from resources.waifu_utils.get_waifu_details import get_waifu_details
 from resources.ensure_collection import ensure_collection
 from resources.LaminariaDB.Collection import Collection
+from resources.LaminariaDB.Document import Document
 
 
-@bot.command(description="Adapts a mudae waifu to the fighting bot")
+@bot.command(description="|UTILITY| Adapts a mudae waifu to the fighting bot")
 async def adapt(ctx: commands.Context):
     """
     Adapts a mudae waifu to the fighting bot. This will convert a given waifu from the mudae bot into an
     usable fighting bot waifu, adding it to the database.
     """
 
-    waifu_message: discord.Message = await validate_waifu(ctx)
-    if not waifu_message:
+    waifu: discord.Message = await validate_waifu(ctx)
+    if not waifu:
         await ctx.message.add_reaction(FAILED_EMOJI)
         return
 
+    if type(waifu) is Document:  # Handles a waifu reclaim transference
+        waifu.content["owner"] = ctx.author.id
+        waifu.update()
+        return await ctx.message.add_reaction(SUCCESS_EMOJI)
+
     await ctx.message.add_reaction(SUCCESS_EMOJI)
 
-    waifu_details: dict = await get_waifu_details(ctx, waifu_message)
+    waifu_details: dict = await get_waifu_details(ctx, waifu)
     waifu_details["owner"] = ctx.author.id
     waifu_details["level"] = 1
     waifu_details["exp"] = 0

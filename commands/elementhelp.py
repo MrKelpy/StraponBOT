@@ -23,7 +23,7 @@ from tasks.handle_waifu_listing import handle_waifu_listing
 
 
 
-@bot.command(description="Shows the list of elements in the game, their descriptions, weaknesses and strengths.",
+@bot.command(description="|UTILITY| Shows the list of elements in the game, their descriptions, weaknesses and strengths.",
              aliases=("ehelp",))
 async def elementhelp(ctx, element: str = "Pyro"):
     """

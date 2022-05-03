@@ -9,7 +9,7 @@ in every distribution, as a "LICENSE" file at top level.
 """
 
 # Built-in Imports
-from typing import List, Optional
+from typing import List, Optional, Union
 
 # Third Party Imports
 import discord
@@ -18,6 +18,7 @@ from discord.ext import commands
 # Local Application Imports
 from data.globals import MUDAE_ID
 from resources.LaminariaDB.LaminariaDB import Collection
+from resources.LaminariaDB.Document import Document
 from resources.ensure_collection import ensure_collection
 
 
@@ -41,10 +42,24 @@ async def get_trigger_message(ctx: commands.Context, waifu_message: discord.Mess
         return None
 
 
-async def validate_waifu(ctx: commands.Context) -> Optional[discord.Message]:
+async def check_for_reclaim(trigger_message: discord.Message, waifu_document: Document) -> bool:
+    """
+    Checks if the user is trying to reclaim a waifu that is now theirs.
+    :param trigger_message: The message prior to the waifu_message.
+    :param Document waifu_document: The document from the database referring to the waifu
+    :return bool: True if the user is trying to reclaim a waifu, false otherwise.
+    """
+
+    if trigger_message.author.id != waifu_document.content["owner"]:
+        return True
+
+    return False
+
+
+async def validate_waifu(ctx: commands.Context) -> Union[Optional[discord.Message], Document]:
     """
     Checks if the last message came from Mudae, and contains valid waifu that isn't already in the database.
-    :return bool: True if the last message came from Mudae, and contains a valid waifu.
+    :return Union[Optional[discord.Message], int]: The waifu message if valid, or the Document.
     """
 
     # Check if the message is replying to something. If so, make it the last message.
@@ -70,10 +85,15 @@ async def validate_waifu(ctx: commands.Context) -> Optional[discord.Message]:
 
     # Makes sure that the waifu is not already in the database. (True if not)
     waifus_collection: Collection = await ensure_collection(str(ctx.guild.id))
-    duplicate_validation: bool = not waifus_collection.find(query={"name": waifu_message.embeds[0].author.name.lower()},
+    waifu_document: List[Document] = waifus_collection.find(query={"name": waifu_message.embeds[0].author.name.lower()},
                                                             limit=1)
+
+    # Checks if the user is trying to reclaim a waifu, in which case, returns the document.
+    if waifu_document and await check_for_reclaim(waifu_trigger_message, waifu_document[0]):
+        return waifu_document[0]
+
     # If either validation fails, return False.
-    if not trigger_message_validation or not waifu_message_validation or not duplicate_validation:
+    if not trigger_message_validation or not waifu_message_validation or waifu_document:
         return None
 
     return waifu_message
