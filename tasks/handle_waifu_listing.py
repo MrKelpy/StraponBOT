@@ -62,8 +62,8 @@ async def handle_waifu_listing(ctx: commands.Context, waifu_list: list,
     # Initializes the essential variables for all of this to work
     timeout_stamp: float = datetime.now().timestamp() + 30.0
     navigation_header: int = starting_index
-    previous_count: int = 0
-    next_count: int = 0
+    previous_count: int = 1
+    next_count: int = 1
 
     # Shows the first page in the listing
     dict_loader_data: dict = await dict_loader_func(waifu_list, navigation_header-1, True)  # Creates the dict loader
