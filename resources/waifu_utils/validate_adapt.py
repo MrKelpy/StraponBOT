@@ -64,4 +64,4 @@ async def validate_waifu(ctx: commands.Context) -> Union[Optional[discord.Messag
         return waifu_document[0]
 
     # If the waifu is not in the database, and the user is not trying to reclaim, then it is a new waifu.
-    return waifu_message if waifu_document else None
+    return waifu_message if not waifu_document else None
