@@ -17,10 +17,10 @@ import discord
 
 # Local Application Imports
 from data.globals import bot, FAILED_EMOJI, SUCCESS_EMOJI
-from resources.waifu_utils.validate_reference import validate_reference
 from resources.LaminariaDB.Collection import Collection
 from resources.LaminariaDB.Document import Document
 from resources.ensure_collection import ensure_collection
+from resources.waifu_utils.validate_basics import validate_basics
 
 
 async def parse_skill_field(field: str) -> str:
@@ -57,14 +57,15 @@ async def addskill(ctx: commands.Context, amount: int, *, field: str) -> None:
     :return None:
     """
 
-
-    if not await validate_reference(ctx):
-        return await ctx.message.add_reaction(FAILED_EMOJI)
+    if ctx.message.reference:
+        waifu_message: discord.Message = await ctx.channel.fetch_message(ctx.message.reference.message_id)
 
     else:
         waifu_message: List[discord.Message] = await ctx.channel.history(limit=2).flatten()
         waifu_message: discord.Message = waifu_message[-1]
-        if not
+
+    if not await validate_basics(ctx, waifu_message):
+        return await ctx.message.add_reaction(FAILED_EMOJI)
 
     collection: Collection = await ensure_collection(ctx.guild.id)
     waifu_document: Document = collection.find(query={"name": ctx.message.reference.embeds[0].author.name.lower()},
