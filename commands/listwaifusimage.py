@@ -38,7 +38,7 @@ async def listwaifusimage(ctx: commands.Context, starting_index: int = 1) -> Non
     if not waifu_query: return
     if starting_index < 0: starting_index = 1
 
-    waifu_list: List[Document] = sorted(waifu_query, key=lambda x: x.content["name"])
+    waifu_list: List[Document] = sorted(waifu_query, key=lambda x: x.content["level"], reverse=True)
     cache_msg: discord.Message = discord.utils.get(bot.cached_messages, id=listing_message.id)
     bot.loop.create_task(handle_waifu_listing(ctx, waifu_list, cache_msg, starting_index, lwi_dict_loader))
 

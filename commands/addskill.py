@@ -67,8 +67,10 @@ async def addskill(ctx: commands.Context, amount: int, *, field: str) -> None:
     if not await validate_basics(ctx, waifu_message):
         return await ctx.message.add_reaction(FAILED_EMOJI)
 
-    collection: Collection = await ensure_collection(ctx.guild.id)
-    waifu_document: Document = collection.find(query={"name": ctx.message.reference.embeds[0].author.name.lower()},
+    collection: Collection = await ensure_collection(str(ctx.guild.id))
+    waifu_name: str = waifu_message.embeds[0].author.name if waifu_message.embeds[0].author.name \
+                      else waifu_message.embeds[0].title
+    waifu_document: Document = collection.find(query={"name": waifu_name.lower()},
                                                limit=1)[0]
 
     if amount > waifu_document.content["skill_points"]:
